@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #703d3f, #13ab18);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Recover button */
+        #app button:nth-last-child(1) {
+            background-color: #008CBA;
+            color: white;
+            font-weight: bold;
+            display: block;
+            margin: 10px auto;
+
+
+        }
+
+        #app button:nth-last-child(1):hover {
+            background-color: #005f73;
+            transform: scale(1.05);
+        }
+
+        /* Edit button */
+        .entry-buttons button:nth-child(1) {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .entry-buttons button:nth-child(1):hover {
+            background-color: #357a38;
+            transform: scale(1.05);
+        }
+
+        /* Delete button */
+        .entry-buttons button:nth-child(2) {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .entry-buttons button:nth-child(2):hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        #app {
+            background: rgb(182, 3, 3);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(4, 0, 239, 0.9);
+        }
+
+        h1 {
+            color: #70ff40;
+        }
+
+        #menu {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        #contentbtn {
+            background: #310f7a !important;
+            color: rgb(197, 210, 14) !important;
+            border: none !important;
+            padding: 10px 15px !important;
+            border-radius: 10px !important;
+            cursor: pointer !important;
+            font-size: 16px !important;
+            transition: 0.3s !important;
+        }
+
+        #contentbtn:hover {
+            font-size: 1vw !important;
+            color: #310f7a !important;
+            background: #ada96e !important;
+        }
+
+        #filter {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            background-color: coral;
+            color: darkblue;
+            position: inherit;
+            overflow: hidden;
+        }
+
+        #filter:hover {
+            color: #703d3f;
+            background-color: greenyellow;
+        }
+
+        #search {
+            width: 95%;
+            max-width: 500px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #d54646;
+            margin-bottom: 10px;
+            background-color: rgb(123, 46, 18);
+            color: rgb(254, 254, 255);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        }
+
+        #filopt:hover {
+            color: #70ff40;
+        }
+
+        #content div {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        #content div:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .entry-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(7, 209, 240);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        #sbtn {
+            color: #70ff40;
+            background-color: #310f7a;
+            border-radius: 50%;
+            padding: 1vw;
+            border-style: none;
+        }
+
+        #sbtn:hover {
+            color: #000000;
+            background-color: rgb(112, 255, 9);
+        }
+
+        #cbtn {
+            color: #d8d0c7;
+            background-color: #310f7a;
+            border-radius: 50%;
+            padding: 1vw;
+            border-style: none;
+        }
+
+        #cbtn:hover {
+            color: #000000;
+            background-color: rgb(255, 0, 0);
+        }
+
+        #entryTitle {
+            color: rgb(0, 0, 0);
+            background-color: rgb(207, 207, 214);
+            padding: 1vw;
+            margin: 18px;
+            border-style: outset;
+            border-width: 1px;
+            border-radius: 10%;
+        }
+
+        #entryContent {
+            color: #d8d0c7;
+            background-color: #703d3f;
+            height: 300px;
+            width: 300px;
+            margin-left: 30px;
+        }
+
+        /* Recover button */
+        #recoverButton {
+            background-color: #008CBA;
+            color: white;
+            font-weight: bold;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #recoverButton {
+            background-color: #008CBA;
+            color: white;
+            font-weight: bold;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #recoverButton {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #recoverButton:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Deleted Items Popup */
+        /* Recover Button */
+        #recoverButton {
+            background: linear-gradient(135deg, #007bff, #00c3ff);
+            color: white;
+            font-weight: bold;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        #recoverButton:hover {
+            background: linear-gradient(135deg, #0056b3, #0096c7);
+            transform: scale(1.05);
+        }
+
+        /* Deleted Items Popup */
+        #deletedItemsModal {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+        }
+
+        /* Scrollable Content */
+        #deletedEntriesList {
+            max-height: 300px;
+            /* Limit height */
+            overflow-y: auto;
+            /* Enable vertical scroll */
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Overlay */
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Buttons in Deleted Items Modal */
+        .modal-button {
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        /* Restore Selected Button */
+        .restore-btn {
+            background: linear-gradient(135deg, #28a745, #48c774);
+            color: white;
+        }
+
+        .restore-btn:hover {
+            background: linear-gradient(135deg, #218838, #3aa55c);
+            transform: scale(1.05);
+        }
+
+        /* Close Button */
+        .close-btn {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            color: white;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, #c82333, #d62c1a);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>My Life</h1>
+        <div id="menu">
+            <button id="contentbtn" onclick="openEntryModal('notes')">Notes</button>
+            <button id="contentbtn" onclick="openEntryModal('poems')">Poems</button>
+            <button id="contentbtn" onclick="openEntryModal('routine')">Routine</button>
+            <button id="contentbtn" onclick="openEntryModal('schedule')">Schedule</button>
+            <button id="contentbtn" onclick="openEntryModal('special')">Special Notes</button>
+            <button id="contentbtn" onclick="openEntryModal('diary')">Diary</button>
+            <button id="contentbtn" onclick="openEntryModal('lists')">Lists</button>
+        </div>
+        <select id="filter" onchange="filterEntries()">
+            <option id="filopt" value="all">All</option>
+            <option id="filopt" value="notes">Notes</option>
+            <option id="filopt" value="poems">Poems</option>
+            <option id="filopt" value="routine">Routine</option>
+            <option id="filopt" value="schedule">Schedule</option>
+            <option id="filopt" value="special">Special Notes</option>
+            <option id="filopt" value="diary">Diary</option>
+            <option id="filopt" value="lists">Lists</option>
+        </select>
+        <input type="text" id="search" placeholder="Search by title..." oninput="searchEntries()">
+        <div id="content"></div>
+
+        <div id="fullContentModal"
+            style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid black; z-index:1000;">
+            <h2 id="fullContentTitle"></h2>
+            <p id="fullContentText"></p>
+            <button onclick="closeFullContentModal()">Close</button>
+        </div>
+    </div>
+
+    <div id="entryModal" class="modal">
+        <h2>Add Entry</h2>
+        <label for="entryTitle">Title : </label>
+        <input type="text" id="entryTitle" placeholder="Title"><br>
+        <label for="entryContent">Content : </label><br>
+        <textarea id="entryContent" placeholder="Write here..."></textarea><br>
+        <button id="sbtn" onclick="saveEntry()">Save</button>
+        <button id="cbtn" onclick="closeModal()">Cancel</button>
+    </div>
+
+    <!-- Deleted Items Popup -->
+    <div id="overlay"></div>
+    <div id="deletedItemsModal">
+        <h3>Deleted Entries</h3>
+        <div id="deletedEntriesList"></div>
+        <button onclick="restoreSelected()">Restore Selected</button>
+        <button onclick="closeDeletedItemsModal()">Close</button>
+    </div>
+
+    <!-- Recover Button -->
+    <button id="recoverButton" onclick="openDeletedItemsModal()">Recover Deleted Entries</button>
+
+    <script>
+        let currentSection = '';
+        let editIndex = null;
+
+        function openEntryModal(section, index = null) {
+            if (index !== null && !confirm("Are you sure you want to edit this entry?")) return;
+
+            currentSection = section;
+            editIndex = index;
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+            document.getElementById("entryTitle").value = index !== null ? entries[index].title : '';
+            document.getElementById("entryContent").value = index !== null ? entries[index].content : '';
+            document.getElementById("entryModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("entryModal").style.display = "none";
+        }
+
+        function saveEntry() {
+            const title = document.getElementById("entryTitle").value;
+            const content = document.getElementById("entryContent").value;
+            const date = new Date().toISOString().split("T")[0];
+
+            if (title && content) {
+                let entries = JSON.parse(localStorage.getItem("entries")) || [];
+                if (editIndex !== null) {
+                    entries[editIndex] = { section: currentSection, title, content, date };
+                } else {
+                    entries.push({ section: currentSection, title, content, date });
+                }
+                localStorage.setItem("entries", JSON.stringify(entries));
+                closeModal();
+                loadEntries();
+            }
+        }
+
+        function deleteEntry(index) {
+            if (!confirm("Are you sure you want to delete this entry? It can be recovered within 1 month.")) return;
+
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+            let deletedEntries = JSON.parse(localStorage.getItem("deletedEntries")) || [];
+
+            let deletedItem = { ...entries[index], deletedAt: new Date().getTime() };
+            deletedEntries.push(deletedItem);
+            localStorage.setItem("deletedEntries", JSON.stringify(deletedEntries));
+
+            entries.splice(index, 1);
+            localStorage.setItem("entries", JSON.stringify(entries));
+            loadEntries();
+        }
+
+        function recoverEntries() {
+            let deletedEntries = JSON.parse(localStorage.getItem("deletedEntries")) || [];
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+            let now = new Date().getTime();
+            let oneMonth = 30 * 24 * 60 * 60 * 1000;
+
+            let recoverableEntries = deletedEntries.filter(entry => now - entry.deletedAt <= oneMonth);
+            let unrecoverableEntries = deletedEntries.filter(entry => now - entry.deletedAt > oneMonth);
+
+            entries.push(...recoverableEntries);
+            localStorage.setItem("entries", JSON.stringify(entries));
+            localStorage.setItem("deletedEntries", JSON.stringify(unrecoverableEntries));
+            alert(recoverableEntries.length > 0 ? "Recovered entries successfully!" : "No entries available for recovery.");
+            loadEntries();
+        }
+
+        function loadEntries() {
+            const filter = document.getElementById("filter").value;
+            const query = document.getElementById("search").value.toLowerCase();
+            const contentDiv = document.getElementById("content");
+            contentDiv.innerHTML = "";
+
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+            let filteredEntries = entries.filter(entry =>
+                (filter === "all" || entry.section === filter) &&
+                (entry.title.toLowerCase().includes(query) || entry.content.toLowerCase().includes(query))
+            );
+
+            filteredEntries.forEach((entry, index) => {
+                let div = document.createElement("div");
+                let firstLine = entry.content.split("\n")[0];
+                let previewText = firstLine.length > 50 ? firstLine.substring(0, 50) + "..." : firstLine;
+                div.innerHTML = `<strong>${entry.title}</strong> (${entry.section}) - ${entry.date}<br>${previewText}
+                <div class='entry-buttons'>
+                    <button onclick="openEntryModal('${entry.section}', ${index})">Edit</button>
+                    <button onclick="deleteEntry(${index})">Delete</button>
+                    <button onclick="showFullContent(${index})">View</button>
+                </div><hr>`;
+                contentDiv.appendChild(div);
+            });
+        }
+
+        function showFullContent(index) {
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+            document.getElementById("fullContentTitle").innerText = entries[index].title;
+            document.getElementById("fullContentText").innerText = entries[index].content;
+            document.getElementById("fullContentModal").style.display = "block";
+        }
+
+        function closeFullContentModal() {
+            document.getElementById("fullContentModal").style.display = "none";
+        }
+
+        document.getElementById("search").addEventListener("input", loadEntries);
+        document.getElementById("filter").addEventListener("change", loadEntries);
+        document.addEventListener("DOMContentLoaded", loadEntries);
+
+
+
+        function openDeletedItemsModal() {
+            let deletedEntries = JSON.parse(localStorage.getItem("deletedEntries")) || [];
+            let now = new Date().getTime();
+            let oneMonth = 30 * 24 * 60 * 60 * 1000;
+
+            let deletedEntriesList = document.getElementById("deletedEntriesList");
+            deletedEntriesList.innerHTML = "";
+
+            let filteredDeletedEntries = deletedEntries.filter(entry => now - entry.deletedAt <= oneMonth);
+
+            if (filteredDeletedEntries.length === 0) {
+                deletedEntriesList.innerHTML = "<p>No recoverable entries available.</p>";
+            } else {
+                filteredDeletedEntries.forEach((entry, index) => {
+                    let div = document.createElement("div");
+                    div.innerHTML = `
+                    <input type="checkbox" class="restore-checkbox" data-index="${index}">
+                    <strong>${entry.title}</strong> (${entry.section}) - ${entry.date}<br>
+                    ${entry.content.substring(0, 50)}...<hr>
+                `;
+                    deletedEntriesList.appendChild(div);
+                });
+            }
+
+            document.getElementById("deletedItemsModal").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeDeletedItemsModal() {
+            document.getElementById("deletedItemsModal").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function restoreSelected() {
+            let checkboxes = document.querySelectorAll(".restore-checkbox:checked");
+            let deletedEntries = JSON.parse(localStorage.getItem("deletedEntries")) || [];
+            let entries = JSON.parse(localStorage.getItem("entries")) || [];
+
+            checkboxes.forEach(checkbox => {
+                let index = parseInt(checkbox.getAttribute("data-index"));
+                entries.push(deletedEntries[index]);
+            });
+
+            // Remove restored items from deleted entries
+            let remainingDeletedEntries = deletedEntries.filter((_, index) =>
+                !Array.from(checkboxes).some(checkbox => parseInt(checkbox.getAttribute("data-index")) === index)
+            );
+
+            localStorage.setItem("entries", JSON.stringify(entries));
+            localStorage.setItem("deletedEntries", JSON.stringify(remainingDeletedEntries));
+
+            closeDeletedItemsModal();
+            loadEntries();
+        }
+
+    </script>
+</body>
+
+</html>

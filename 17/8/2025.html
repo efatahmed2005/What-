@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Am I wrong?</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a, #101010);
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      background: rgba(20, 20, 20, 0.9);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.8);
+      animation: fadeIn 2s ease;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #f5f5f5;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    p {
+      line-height: 1.7;
+      font-size: 1.1rem;
+      color: #cccccc;
+      text-align: justify;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeSlideUp 1.5s ease forwards;
+      animation-delay: 1s;
+    }
+
+    .highlight {
+      color: #ff6666;
+      font-weight: bold;
+      display: block;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff4d4d, 0 0 20px #ff1a1a; }
+      to { text-shadow: 0 0 20px #ff8080, 0 0 30px #ff3333; }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>What ?</h1>
+    <p>
+      I realized that nobody is permanent in my life except myself. Life goes on without others. 
+      Today my father also told me: 
+      <span class="highlight">"দুনিয়ার কেউ কারো না। এটা সব সময় বুঝে চলবি।"</span>
+      Maybe the thoughts I am having today, the dreams I am chasing today—everything might be wrong. 
+      One day everyone will leave me, even my parents. Then what? Who am I? What am I really thinking? 
+      Have I ever thought deeply about it?<br><br>
+
+      Why do I become so angry and rude over silly reasons? I am a human being, but maybe I have some 
+      mental issues. Why do I always want to be successful? Is being successful really that easy? 
+      I think I should be stronger in accepting my defeats. I shouldn’t get so angry if anyone says 
+      something wrong about me. They have their own tongue, so they can speak anything they want.<br><br>
+
+      The way I take their words so seriously might be my own mental instability. So I should fix this. 
+      Otherwise, since nobody is permanent in my life, I should focus on myself. I know at this moment 
+      it’s very hard for me. It may take about 2 to 3 months. It will make me suffer a lot and bring 
+      indescribable mental pain. But still, I should accept it.
+    </p>
+  </div>
+</body>
+</html>
